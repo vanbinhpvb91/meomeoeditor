@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Meo Meo editor</title>
+<link rel="stylesheet" type="text/css" href="css/editorstyle.css" />
+<script type="text/javascript" src="js/core/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="js/initial-screen.js"></script>
+<script type="text/javascript" src="js/lang/message.js"></script>
+<script type="text/javascript" src="js/model/model.js"></script>
+<script type="text/javascript" src="js/model/db.js"></script>
+<script type="text/javascript" src="js/function/action.js"></script>
+<script type="text/javascript" src="js/bind/utils.js"></script>
+<script type="text/javascript" src="js/bind/tab-bind-ui.js"></script>
+<script type="text/javascript" src="js/bind/frame-bind-ui.js"></script>
+<script type="text/javascript">
+	ACTION.createDB();
+</script>
+</head>
+<body>
+	<!-- Dialog -->
+	<div id="disable">
+	</div>
+	<!-- Toast -->
+	<div id="toast"></div>
+	<!-- Music choose Dialog -->
+	<div id="music-dialog" class="dialog" style="display: true">
+		<h3>Music</h3>
+		<div class="dialog-select">
+			<div class="add-btn">
+				+
+			</div>
+			<div class="music-item">
+				<div class="name">Best romantic</div>
+				<div class="music-controll"></div>
+			</div>
+			<div class="music-item">
+				<div class="name">Best romantic</div>
+				<div class="music-controll"></div>
+			</div>
+			<div class="music-item active">
+				<div class="name">Best romantic</div>
+				<div class="music-controll"></div>
+			</div>
+		</div>
+		<div class="button-holder">
+			<div class="common-button-css button-dialog close-button"></div>
+			<div class="common-button-css button-dialog apply-button"></div>
+		</div>
+	</div>
+	<div id="border-dialog" class="dialog">
+		<h3>Border</h3>
+		<div class="dialog-select">
+			<div class="common-item-holder">
+				<img class="item" src="img/editor/border/border-1.png" />
+				<img class="button" src="img/editor/icon/tool/choose.png" />
+			</div>
+			<div class="common-item-holder">
+				<img class="item" src="img/editor/border/border-2.png" />
+				<img class="button" src="img/editor/icon/tool/choose.png" />
+			</div>
+			<div class="common-item-holder">
+				<img class="item" src="img/editor/border/border-3.png" />
+				<img class="button" src="img/editor/icon/tool/choose.png" />
+			</div>
+			<div class="common-item-holder">
+				<img class="item" src="img/editor/border/border-4.png" />
+				<img class="button" src="img/editor/icon/tool/choose.png" />
+			</div>
+			<div class="common-item-holder common-item-holder-active">
+				<img class="item" src="img/editor/border/border-1.png" />
+				<img class="button" src="img/editor/icon/tool/choose.png" />
+			</div>
+		</div>
+		<div class="button-holder">
+			<div class="common-button-css button-dialog close-button"></div>
+			<div class="common-button-css button-dialog apply-button"></div>
+		</div>
+	</div>
+	<div id="confirm-dialog" class="dialog" style="height: 200px">
+		<div class="dialog-select" style="text-align: center; line-height: 100px">
+			Are you sure to delete?
+		</div>
+		<div class="button-holder">
+			<div class="common-button-css button-dialog close-button"></div>
+			<div class="common-button-css button-dialog apply-button"></div>
+		</div>
+	</div>
+	<!---------upload dialog-------------->
+	<div id="download-dialog" class="dialog" style="height: 150px; width: 280px">
+		<div class="dialog-select" style="text-align: center;">
+			<div class="input-group" style="margin: 10px 0">
+				<label for="time" style="font-size: 15px">Chọn Tệp tin:</label>
+				<input type="text" id="file-patch" style="width: 135px; height: 23px" />
+				<div class="common-button-css button-dialog file-button"></div>
+				<input type="file" id="file" style="width: 225px; display: none;" />
+			</div>
+			<div id="upload-progress">
+				<div id="download-status-bar">
+					<div id="progress"></div>
+				</div>
+				<div class="common-button-css button-dialog upload-button"></div>
+			</div>
+		</div>
+		<div class="button-holder">
+			<div class="common-button-css button-dialog close-button"></div>
+		</div>
+	</div>
+	<!-- frame edit -->
+	<div id="frames-edit" class="fullHeight">
+		<div id="logo-banner">
+			<img src="img/editor/cat-editor-logo.png">
+		</div>
+		<div class="tab-title">Frame edit</div>
+		<div class="input-group">
+			<label for="time">Time:</label>
+			<span class="afterText">second</span>
+			<input type="text" id="time" />
+		</div>
+		<div class="group-box">
+			<h3>Backdground</h3>
+			<div class="common-item-holder" id="background_change">
+				<img class="item" src="img/editor/testimg.png"/>
+				<img class="button" src="img/editor/icon/tool/edit.png"/>
+			</div>
+		</div>
+		<div class="group-box plugin">
+			<h3>Animation</h3>
+			<div class="plugin-select" id="plugin_change">
+				<div class="direction-contain">
+					<img src="img/editor/icon/tool/left-right.png" class="select-picture selected direction"/>
+					<img src="img/editor/icon/tool/straingt.png" class="select-picture selected type"/>
+				</div>
+				<div class="icon-contain">
+					<img class="item" src="img/birthdate/gift1.png" />
+					<img class="item" src="img/birthdate/gift.png" />
+					<img class="item" src="img/birthdate/gift2.png" />
+					<img class="item" src="img/birthdate/cake-1.png" />
+				</div>
+			</div>
+		</div>
+		<div class="group-box">
+			<h3>Text</h3>
+			<div>
+				<div id="text0" class="text-item">
+					<div class="text-display">Start text area van binh la anh ha ah aha ha</div>
+					<div class="edit-button common-text-button common-button-css txtBtn" id="text_change"></div>
+				</div>
+				<div id="text1" class="text-item">
+					<div class="text-display"></div>
+					<div class="common-text-button common-button-css txtBtn" id="text_add">+</div>
+					<div class="common-text-button common-button-css removeText" style="margin-right: 4px">-</div>
+				</div>
+			</div>
+		</div>
+		<div id="tab-bar">
+			<div class="common-button-css button-dialog apply-button">
+			</div>
+		</div>
+	</div>
+	<!-- player controll -->
+	<div id="player-controller">
+		<div id="tool-bar">
+			<div id="frame-tb" class="toolbar-button">
+				<img src="img/editor/icon/tool/frame.png" />
+			</div>
+			<div id="music-tb" class="toolbar-button">
+				<img src="img/editor/icon/tool/music.png" />
+			</div>
+			<div id="save-tb" class="toolbar-button">
+				<img src="img/editor/icon/tool/save.png" />
+			</div>
+		</div>
+		<div id="player">
+		</div>
+	</div>
+	<!-- frame contain editor -->
+	<div id="items-controller" class="fullHeight">
+		<!-- picture tab -->
+		<div id="background-tab" class="marchHeight tab">
+			<div class="tab-title">
+				Background
+			</div>
+			<div class="items-edit-input">
+				<div class="input-group">
+					<label for="apper-select">Appear</label>
+					<select property="preAnimation_prop">
+						<option value="1">Hiện rõ</option>
+						<option value="2">Phóng to</option>
+						<option value="3">Hiện rõ - Phóng to</option>
+					</select>
+				</div>
+				<div class="input-group" property="posAnimation_prop">
+					<label for="time">Hide</label>
+					<select>
+						<option value="1">Mờ dần</option>
+					</select>
+				</div>
+			</div>
+			<div id="background-item-holder" class="tab-content" property="url_prop">
+				<div class="add-btn">+</div>
+				<div class="common-item-holder">
+					<img class="item" src="img/editor/testimg.png" />
+					<img class="button" src="img/editor/icon/tool/choose.png" />
+				</div>
+				<div class="common-item-holder">
+					<img class="item" src="img/birthdate/bg5.jpg" />
+					<img class="button" src="img/editor/icon/tool/choose.png" />
+				</div>
+				<div class="common-item-holder">
+					<img class="item" src="img/birthdate/bg6.jpg" />
+					<img class="button" src="img/editor/icon/tool/choose.png" />
+				</div>
+				<div class="common-item-holder">
+					<img class="item" src="img/birthdate/bg4.jpg" />
+					<img class="button" src="img/editor/icon/tool/choose.png" />
+				</div>
+			</div>
+		</div>
+		<!-- plugin tab -->
+		<div id="plugin-tab" class="marchHeight tab" style="display: none;">
+			<div class="tab-title">
+				Plugin
+			</div>
+			<div class="items-edit-input">
+				<div class="input-group">
+					<label>Direction</label>
+					<div id="directionSelect" class="select-picture-group" property="direction_prop">
+						<img src="img/editor/icon/tool/left-right.png" class="select-picture selected" val="1"/>
+						<img src="img/editor/icon/tool/right-left.png" class="select-picture" val="2" />
+						<img src="img/editor/icon/tool/top-botton.png" class="select-picture" val="3"/>
+						<img src="img/editor/icon/tool/botton-top.png" class="select-picture" val="4"/>
+					</div>
+				</div>
+				<div class="input-group">
+					<label>Hide</label>
+					<div class="select-picture-group" property="type_prop">
+						<img src="img/editor/icon/tool/straingt.png" class="select-picture selected" val="1"/>
+						<img src="img/editor/icon/tool/inclined.png" class="select-picture" val="3"/>
+						<img src="img/editor/icon/tool/sin.png" class="select-picture" val="5"/>
+					</div>
+				</div>
+				<div class="input-group">
+					<label>Số lượng</label>
+					<input type="text" property="number_prop"/>
+				</div>
+				
+				<div class="input-group">
+					<label>Đã chọn</label>
+					<div id="plugin-item-selected" class="added-list plugin-imgs" property="imgs_prop">
+						<div id="plugin-item-sample" class="plugin-item common-item-holder" style="display: none;">
+							<img class="item" src="img/birthdate/cake-1.png" />
+							<img class="button" src="img/editor/icon/tool/remove.png" />
+						</div>
+					</div>
+				</div>
+				
+				<div class="input-group">
+					<label for="time">Phân loại</label>
+					<select>
+						<option>Tất cả</option>
+						<option>Sinh nhật</option>
+						<option>Đám cưới</option>
+						<option>Ngày lễ</option>
+					</select>
+				</div>
+			</div>
+			<div id="plugin-item-holder" class="tab-content" property="imgs_prop">
+				<div class="plugin-item common-item-holder">
+					<img class="item" src="img/birthdate/cake-1.png" />
+					<img class="button" src="img/editor/icon/tool/add.png" />
+				</div>
+				<div class="plugin-item common-item-holder">
+					<img class="item" src="img/birthdate/cake-2.png" />
+					<img class="button" src="img/editor/icon/tool/add.png" />
+				</div>
+				<div class="plugin-item common-item-holder">
+					<img class="item" src="img/birthdate/cake-3.png" />
+					<img class="button" src="img/editor/icon/tool/add.png" />
+				</div>
+				<div class="plugin-item common-item-holder">
+					<img class="item" src="img/birthdate/Candle-icon.png" />
+					<img class="button" src="img/editor/icon/tool/add.png" />
+				</div>
+				<div class="plugin-item common-item-holder">
+					<img class="item" src="img/birthdate/Candle-2-icon.png" />
+					<img class="button" src="img/editor/icon/tool/add.png" />
+				</div>
+				<div class="plugin-item common-item-holder">
+					<img class="item" src="img/birthdate/Candle-3-icon.png" />
+					<img class="button" src="img/editor/icon/tool/add.png" />
+				</div>
+				<div class="plugin-item common-item-holder">
+					<img class="item" src="img/birthdate/Candle-4-icon.png" />
+					<img class="button" src="img/editor/icon/tool/add.png" />
+				</div>
+				<div class="plugin-item common-item-holder">
+					<img class="item" src="img/birthdate/gift.png" />
+					<img class="button" src="img/editor/icon/tool/add.png" />
+				</div>
+				<div class="plugin-item common-item-holder">
+					<img class="item" src="img/birthdate/gift1.png" />
+					<img class="button" src="img/editor/icon/tool/add.png" />
+				</div>
+				<div class="plugin-item common-item-holder">
+					<img class="item" src="img/birthdate/gift2.png" />
+					<img class="button" src="img/editor/icon/tool/add.png" />
+				</div>
+			</div>
+		</div>
+		<!-- Text tab -->
+		<div id="text-tab" class="marchHeight tab" style="display: none;">
+			<div class="tab-title">
+				Text
+			</div>
+			<div class="items-edit-input">
+				<div class="input-group">
+					<label>Nội dung</label>
+					<input id="string_contain" type="text" property="contain_prop"/>
+				</div>
+				<div class="input-group">
+					<label>Font size</label>
+					<select id="font_size" property="size_prop">
+						<option value="1">Nhỏ</option>
+						<option value="2">Trung bình</option>
+						<option value="3">Lớn</option>
+						<option value="4">Rất lớn</option>
+					</select>
+				</div>
+				<div class="input-group">
+					<label>Font</label>
+					<select id="font_family" property="font_prop">
+						<option value="1">ABC</option>
+						<option value="2">Time</option>
+						<option value="3">Bay buom</option>
+						<option value="4">Ruong dong</option>
+					</select>
+				</div>
+				<div class="input-group" style="height:25px;overflow:visible;">
+					<label for="time">Màu chữ</label>
+					<div class="color-picker" style="width:58%;float:right;" id="string_color" property="color_prop" change="Text_Bind_UI.changeColor">
+						<div class="selected-color" style="width:100%;height:20px;cursor:pointer;"></div>
+					</div>
+				</div>
+				<div class="input-group">
+					<label>Vị trí</label>
+					<select id="string_position" property="postion_prop">
+						<option value="top_left">Trên - trái</option>
+						<option value="top_center">Trên - giữa</option>
+						<option value="top_right">Trên - phải</option>
+						<option value="middle_left">Tâm - trái</option>
+						<option value="middle_center">Trung tâm</option>
+						<option value="middle_right">Tâm - Phải</option>
+						<option value="botton_left">Dưới - trái</option>
+						<option value="botton_center">Dưới - giữa</option>
+						<option value="botton_right">Dưới - phải</option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- frames selecter -->
+	<div id="frames-controller" class="fullWidth">
+		<div id="sample" class="item-contain common-item-holder" style="display: none;">
+		  <img id='bg2' class="item" src="img/birthdate/bg/bg2.jpg"/>
+		  <img class="button" src="img/editor/icon/tool/delete.png"/>
+		</div>
+		<div id ="lasted_drop" class="drop_able"></div>
+		<div class="common-button-css add-frame">+</div>
+	</div>
+	<img id="ghost_img" src="img/editor/frames.png" width="50px" height="50px">
+</body>
+</html>

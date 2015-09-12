@@ -1,0 +1,1 @@
+<label><?php echo $prop->name?></label><input cssname="<?php echo $css->name?>" propname="<?php echo $prop->name?>" type="color">
